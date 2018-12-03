@@ -45,9 +45,14 @@ public class HtmlGet implements Runnable {
 
 			// create an URL object
 			URL url = new URL(html_link);
+			
+			// opening a connection to the URL
 			HttpURLConnection connect = (HttpURLConnection) url.openConnection();
+			
+			// getting the input using InputStream
 			InputStream input = connect.getInputStream();
 
+			//BufferedReader is used to 
 			BufferedReader reader =  new BufferedReader(new InputStreamReader(input));
 
 
@@ -56,11 +61,15 @@ public class HtmlGet implements Runnable {
 			String line = null;
 
 
+			// reading file until end of file is reached
 			while((result = reader.readLine()) != null){
 				str.append(result);
 			}
+			
 			result = str.toString();
 
+			
+			// printing the result to the user in the console
 			System.out.println(result);
 
 
@@ -69,11 +78,9 @@ public class HtmlGet implements Runnable {
 			e.printStackTrace();
 		}
 
-
 	}
 
 	public String get_result() {
-
 		return result; 
 
 	}
