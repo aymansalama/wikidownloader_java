@@ -12,12 +12,12 @@ public class WikidownloaderJava {
 		
 	}
 	
-	public static void arrayTimestamps(url_received)
+	public static void arrayTimestamps()
 	{
 		String timeStampsArray[];
 		String url_wiki;
 		
-		url_wiki = url_received;
+		
 		
 		
 		
