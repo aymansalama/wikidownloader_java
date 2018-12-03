@@ -21,12 +21,29 @@ public class Main extends Application {
 //			primaryStage.show();
 			
 			
+			// test the function
+			
+			String wikidumps="https://dumps.wikimedia.org";
+			
+			String filter="/nlwiktionary/20181201/nlwiktionary-20181201-categorylinks.sql.gz";
+			
+			String link = wikidumps+filter;
+			File out;
+			
+		
+			
+			
 			// directorychooser is used to get the path for download location
 			DirectoryChooser chooser = new DirectoryChooser();
 			File  file =chooser.showDialog(primaryStage);
 			
 			// filepath stores the path for the download location
 			String filepath = file.getAbsolutePath();
+			
+			out= new File(filepath+"/dumps.sql.gz");
+			
+		// download the file
+			new Thread(new Download(link,out)).start();
 			
 			
 		} catch(Exception e) {
