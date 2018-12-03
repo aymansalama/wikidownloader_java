@@ -1,5 +1,6 @@
+package Wikidownloader;
 
-public class Test {
+public class WikidownloaderJava {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
