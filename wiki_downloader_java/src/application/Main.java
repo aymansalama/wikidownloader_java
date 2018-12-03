@@ -30,6 +30,14 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 		
+		//exmaple to get the html characters
+		HtmlGet Html = new HtmlGet("https://www.youtube.com/");
+		Html.run();
+		
+		String result = Html.get_result();
+		
+		System.out.println(result);
+		
 	}
 	
 	
