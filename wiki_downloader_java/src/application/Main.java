@@ -39,27 +39,13 @@ public class Main extends Application {
 	public static void main(String[] args) throws IOException {
 		launch(args);
 		
-		String link = "https://dumps.wikimedia.org/backup-index.html";
+		//example to get the HTML characters
+		HtmlGet Html = new HtmlGet("https://dumps.wikimedia.org/backup-index.html");
+		Html.run();
 		
-		ArrayList<String> namesList = getListOfProjects(link);
+		String result = Html.get_result();
 		
-		for(int i = 0; i < namesList.size(); i++) {
-			if(namesList.get(i).equals(""))
-				namesList.remove(i);
-		}
-		
-		for(int i = 0; i < namesList.size(); i++) {
-			System.out.println(namesList.get(i));
-		}
-		System.out.println("Total size is: " + namesList.size());
-		
-//		//example to get the HTML characters
-//		HtmlGet Html = new HtmlGet("https://dumps.wikimedia.org/backup-index.html");
-//		Html.run();
-//		
-//		String result = Html.get_result();
-//		
-//		System.out.println(result);	
+		System.out.println(result);	
 
 	}
 	
