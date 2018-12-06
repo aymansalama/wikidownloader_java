@@ -1,13 +1,17 @@
 package application;
 
 import java.io.BufferedInputStream;
+
 import java.io.BufferedOutputStream;
 
 /**
  *@author kesaven vulliamay
  *
+ *function getpath must be called first to choose download location,
+ *only then the run function is called
  *
  **/
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,21 +20,37 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+
 public class Download implements Runnable {
 
-	String link;
-	File out;
+	String link;// this is the download link
+	String url_select;// used to name the file
+	Stage stage;// stage to display the ui to choose download location
+	String filepath;// used to store the file path where to download the numbs
+	File out;//
+	
 	
 	/**
 	 *@param link used for the download link
-	 *@param out is used for the file path and name
+	 *@param stage is used for the ui dispplay to choose download location
+	 *@param url_select use to name the file
 	 **/
 
-	public Download(String link , File out) {
-
+	public Download(String link ,String url_select, Stage stage) {
 		this.link=link;
-		this.out=out;
+		this.url_select=url_select;
+		this.stage=stage;
 
+	}
+	
+	
+	public void get_path() {
+		DirectoryChooser chooser = new DirectoryChooser();
+		File  file =chooser.showDialog(stage);
+		filepath = file.getAbsolutePath();
+		out= new File(filepath+url_select);
 	}
 
 	@Override
@@ -108,6 +128,7 @@ public class Download implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		
 		
 

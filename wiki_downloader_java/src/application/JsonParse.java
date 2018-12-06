@@ -1,6 +1,13 @@
 package application;
 import java.io.BufferedReader;
 
+
+/**
+ * @author kesaven vulliamay
+ * this class helps to get the links from the json file 
+ * **/
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,19 +26,29 @@ import org.json.JSONString;
 
 public class JsonParse {
 	
+	// reveiced when user selects project name , language and timestamp
+	String url_with_timestap_and_language;
+	
+	// used to get the json file to be used to get the links
+	String add_json_extension ="/dumpstatus.json";
 	
 	
-	public JsonParse() {
+	
+	public JsonParse(String url_with_timestap_and_language ) {
 		
+		this.url_with_timestap_and_language=url_with_timestap_and_language;
 		
 	}
 	
 	public String json() throws IOException {
 		
+		String url_parse= url_with_timestap_and_language + add_json_extension;
+		
 		  String result="";
 		
 		try {
-			URL url= new URL("https://dumps.wikimedia.org/nowikisource/20181201/dumpstatus.json");
+			// parsing the url
+			URL url= new URL(url_parse);
 			
 			  HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
               InputStream inputStream = httpURLConnection.getInputStream();
@@ -58,7 +75,7 @@ public class JsonParse {
 		e.printStackTrace();
 	}
 		
-		System.out.println(result);
+		//System.out.println(result);
 		return result;
 		
 	}
@@ -72,9 +89,6 @@ public class JsonParse {
 	    	  JSONObject obj = new JSONObject(json());
 	    	  JSONObject jobs = (JSONObject) obj.get("jobs");
 	    	  
-	 
-	    	  System.out.println("length of jibs is "+jobs.length());
-	    	  
 	    	  
 	    	   int jobs_length = jobs.length();
 	    	   
@@ -87,37 +101,9 @@ public class JsonParse {
 	    		   titles.add(jsonarray.get(a).toString());
 	    	   }
 	    	   
-	    	   
-
-	    		   
-	    	   JSONObject link=(JSONObject) jobs.get(titles.get(6).toString());
-	    	   
-	    	   System.out.println("link is " + link);
-	    	   
-	    	   
-	    	   
-	    	   JSONArray arr=link.names();
-	    	   
-	    	   System.out.println( "titles " + arr.toString());
 	    	 
-	    	    JSONObject ob=  (JSONObject) link.get(arr.getString(0));
-	   	 
-	    	  
-	    	   System.out.println("files" + ob);
-	    	   
-	    	   
-	    	   JSONArray link_name= ob.names();
-	    	   
-	    	   String link_final= link_name.getString(0).toString();
 	
-	    	   
-	    	   // giving me the final link
-	    	   System.out.println("link name is " + link_final);
-	    	   
-	    	   
-	    	
-	    	 
-	    	   
+	    	   // looping through the jobs and extracting the url
 	    	   for (int a =0 ; a <titles.size();a++) {
 	    		   JSONObject object_contain_key_files=(JSONObject) jobs.get(titles.get(a).toString());
 	    		 
@@ -128,9 +114,6 @@ public class JsonParse {
 	    		   
 	    		   // index is zero because we want to access files
 	    		   JSONObject object_contain_in_file=  (JSONObject) object_contain_key_files.get(array_contain_elements_in_title.getString(0));
-	    		   
-	    		   
-	    		   System.out.println(object_contain_in_file);
 	    		   
 	    		   
 	    		   JSONArray getting_object_link= object_contain_in_file.names();

@@ -54,9 +54,13 @@ public class Main extends Application {
 //		TimeStamp time = new TimeStamp("https://dumps.wikimedia.org/ruwikisource/");
 //		System.out.println(Arrays.toString(time.get_time()));
 		
-		JsonParse as = new JsonParse();
-		as.get_titles();
 		
+		// need to contain 
+		JsonParse final_url_part = new JsonParse("https://dumps.wikimedia.org/nowikisource/20181201/");
+	    final_url_part.get_titles();
+		
+		
+//		
 		launch(args);
 		
 		
@@ -79,6 +83,10 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
+	
+		
+
 
 	// Adding dummy lists
 	//TODO Remove dummy lists
@@ -186,6 +194,11 @@ public class Main extends Application {
 	//Download dumps button function
 	private Object downloadDumps() {		
 		// TODO Add download dumps function here
+		
+//		Download download1 = new Download("https://dumps.wikimedia.org/nlwiktionary/20181201/nlwiktionary-20181201-categorylinks.sql.gz"
+//		,"/dumps.sql.gz",primaryStage);
+//download1.get_path();
+//download1.run();
 		
 		return null;
 	}
