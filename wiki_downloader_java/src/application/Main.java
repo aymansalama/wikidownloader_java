@@ -3,11 +3,12 @@ package application;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.application.Application;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import jdk.nashorn.internal.runtime.PrototypeObject;
+//import jdk.nashorn.internal.runtime.PrototypeObject;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,7 +16,7 @@ import javafx.fxml.FXMLLoader;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+//import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,12 +50,17 @@ public class Main extends Application {
     final Button download = new Button();
 	
 	public static void main(String[] args) throws IOException {
+		
+		TimeStamp time = new TimeStamp("https://dumps.wikimedia.org/ruwikisource/");
+		System.out.println(Arrays.toString(time.get_time()));
+		
 		launch(args);
 		
+		
 		//example to get the HTML characters
-		HtmlGet Html = new HtmlGet("https://dumps.wikimedia.org/backup-index.html");
-    public static void main(String[] args) {
-		launch(args);
+//		HtmlGet Html = new HtmlGet("https://dumps.wikimedia.org/backup-index.html");
+//    public static void main(String[] args) {
+//		launch(args);
 		
 		/*//exmaple to get the html characters
 		HtmlGet Html = new HtmlGet("https://www.youtube.com/");
@@ -169,7 +175,6 @@ public class Main extends Application {
         hbox5.getChildren().addAll(download);
         box.getChildren().addAll(hbox1, hbox2, hbox3, hbox4, hbox5);
         Scene scene = new Scene(box, 300, 500);
-
         primaryStage.setTitle("wikiDownloader_java");
         primaryStage.setScene(scene);
         primaryStage.show();
