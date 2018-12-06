@@ -48,11 +48,12 @@ public class Main extends Application {
 	HashMap arrayOfprojects = new HashMap();
     HashMap arrayOflanguages = null;
     
-	
+
 	public static void main(String[] args) throws IOException {		
-		/*TimeStamp ts = new TimeStamp("https://dumps.wikimedia.org/zhwiki/");
-		System.out.println(ts.get_time());
-		*/
+		// need to contain 
+		JsonParse final_url_part = new JsonParse("https://dumps.wikimedia.org/nowikisource/20181201/");
+	    final_url_part.get_titles();
+
 		launch(args);
 	
 	}
@@ -68,6 +69,7 @@ public class Main extends Application {
 		arrayOfprojects.put("Wikisource", "wikisource");
 		arrayOfprojects.put("Wikiversity", "wikiversity");
 		arrayOfprojects.put("Wikivoyage", "wikivoyage");
+
         
     //Adding UI for application
         ObservableList listOfprojects = FXCollections.observableList(new ArrayList(arrayOfprojects.keySet()));
@@ -158,7 +160,7 @@ public class Main extends Application {
         hbox4.getChildren().addAll(new Text("Choose Titles"), titles);
         hbox5.getChildren().addAll(download);
         box.getChildren().addAll(hbox1, hbox2, hbox3, hbox4, hbox5);
-        Scene scene = new Scene(box, 350, 230);
+        Scene scene = new Scene(box, 380, 230);
         primaryStage.setTitle("wikiDownloader_java");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -167,6 +169,11 @@ public class Main extends Application {
 	//Download dumps button function
 	private Object downloadDumps() {		
 		// TODO Add download dumps function here
+		
+//		Download download1 = new Download("https://dumps.wikimedia.org/nlwiktionary/20181201/nlwiktionary-20181201-categorylinks.sql.gz"
+//		,"/dumps.sql.gz",primaryStage);
+//download1.get_path();
+//download1.run();
 		
 		return null;
 	}

@@ -10,6 +10,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/***
+ * **
+ * @author kesaven vulliamay
+ *class to get the givestamp given with the html
+ */
+
 public class TimeStamp {
 	
 	
