@@ -72,8 +72,8 @@ public class Languages {
                     String languageCode = cols.get(0).text();
                     // Remove ":" character from end of language code
                     languages.put(
-                            languageCode.substring(0, languageCode.length() - 1),
-                            cols.get(1).text());
+                            cols.get(1).text(), 
+                            languageCode.substring(0, languageCode.length() - 1));
                 }
             }
         } catch (Exception e) {
