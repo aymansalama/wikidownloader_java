@@ -51,8 +51,11 @@ public class Main extends Application {
 	
 	public static void main(String[] args) throws IOException {
 		
-		TimeStamp time = new TimeStamp("https://dumps.wikimedia.org/ruwikisource/");
-		System.out.println(Arrays.toString(time.get_time()));
+//		TimeStamp time = new TimeStamp("https://dumps.wikimedia.org/ruwikisource/");
+//		System.out.println(Arrays.toString(time.get_time()));
+		
+		JsonParse as = new JsonParse();
+		as.get_titles();
 		
 		launch(args);
 		
