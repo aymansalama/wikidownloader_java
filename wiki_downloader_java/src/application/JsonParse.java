@@ -63,7 +63,9 @@ public class JsonParse {
 		
 	}
 	
-	public void get_titles() {
+	public ArrayList<String> get_titles() {
+		
+		  ArrayList link_title = new ArrayList();
 		
 	      try {
 	    	  
@@ -85,55 +87,68 @@ public class JsonParse {
 	    		   titles.add(jsonarray.get(a).toString());
 	    	   }
 	    	   
-	    	   System.out.println("size of the list is :"+titles.size() + titles);
 	    	   
-	   
-	    	   
-	    		
-	    		
+
 	    		   
-	    	   	
-	    	  jobs.get("categorytable");
-	    	  
-	    	  JSONObject cat=(JSONObject) jobs.get("categorytable");
-	    	  
-	    	  JSONObject files=(JSONObject) cat.get("files");
-	    	  
-	    	  
-	    	  
-	    
-	    	  
-	    	  System.out.println(cat.has("files"));
-	    	  
-	   
-	    	  
-	    	   System.out.println( jobs.toString());
+	    	   JSONObject link=(JSONObject) jobs.get(titles.get(6).toString());
 	    	   
-	    	   System.out.println( cat.toString());
+	    	   System.out.println("link is " + link);
 	    	   
-	    	   System.out.println( files.toString());
+	    	   
+	    	   
+	    	   JSONArray arr=link.names();
+	    	   
+	    	   System.out.println( "titles " + arr.toString());
+	    	 
+	    	    JSONObject ob=  (JSONObject) link.get(arr.getString(0));
+	   	 
+	    	  
+	    	   System.out.println("files" + ob);
+	    	   
+	    	   
+	    	   JSONArray link_name= ob.names();
+	    	   
+	    	   String link_final= link_name.getString(0).toString();
+	
+	    	   
+	    	   // giving me the final link
+	    	   System.out.println("link name is " + link_final);
 	    	   
 	    	   
 	    	
-	   
+	    	 
 	    	   
-	 
+	    	   for (int a =0 ; a <titles.size();a++) {
+	    		   JSONObject object_contain_key_files=(JSONObject) jobs.get(titles.get(a).toString());
+	    		 
+	    		   
+	    		   JSONArray array_contain_elements_in_title=object_contain_key_files.names();
+	    		   
+	    		   
+	    		   
+	    		   // index is zero because we want to access files
+	    		   JSONObject object_contain_in_file=  (JSONObject) object_contain_key_files.get(array_contain_elements_in_title.getString(0));
+	    		   
+	    		   
+	    		   System.out.println(object_contain_in_file);
+	    		   
+	    		   
+	    		   JSONArray getting_object_link= object_contain_in_file.names();
+		    	   
+	    		   //getting the first one here 
+		    	   String final_link_to_append= getting_object_link.getString(0).toString();
+		    	   
+		    	   link_title.add(final_link_to_append);
+		
+	    		  
+	    		 
+	    	   }
+	    	   
+	    	   System.out.println("all the  links are now " +link_title);
 	    	  
-	    	 // JSONObject jobject
-			
-			
-			
-
-           // JSONArray arr = new JSONArray(titleinfo);
-//            
-//            for (int i =0;i < arr.length();i++){
-//
-//                JSONObject jsonPart = arr.getJSONObject(i);
-//
-//            System.out.println( jsonPart.getString("files"));
-//         
-//		} 
-            
+	    	
+	   
+	    
 	      }catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,6 +157,8 @@ public class JsonParse {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	      
+	      return link_title;
 			
 	}
 
