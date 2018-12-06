@@ -5,34 +5,33 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Amirul Umar Bin Pandai
  *
  * Languages takes the name of the project and goes to an external wiki page
  * to return a list of all the supported languages, according to the
- * wiki page, in String format
- *
+ * wiki page, in a HashMap.
  */
 public class Languages {
 
     /**
-     *
      * @param project Name of the project.
-     * @return ArrayList of languages.
+     * @return HashMap of languages (key = language code, value = English name of language)
      */
-    public static ArrayList<String> getLanguagesFromProject(String project) {
+    public static HashMap getLanguagesFromProject(String project) {
+        // Site of table that contains references for supported languages
         String html = "https://meta.wikimedia.org/wiki/Table_of_Wikimedia_projects";
-        ArrayList<String> languages = new ArrayList<>();
+        HashMap languages = new HashMap();
         try {
             Document doc = Jsoup.connect(html).get();
             Elements tableElements = doc.select("table.wikitable.sortable");
             Elements rows = tableElements.select("tr");
 
-            project.toUpperCase();
             int column = 0;
-            switch (project) {
+            String projectUp = project.toUpperCase();
+            switch (projectUp) {
                 case "WIKIPEDIA":
                     column = 3;
                     break;
@@ -60,18 +59,21 @@ public class Languages {
                 default:
                     break;
             }
-			
-			// Delete deprecated languages indicated by the del tag
+
+            // Delete deprecated languages indicated by the del tag in the table
             for (Element element : doc.select("del")) {
                 element.remove();
             }
-			
-            int index = 1;
+
             for (int i = 1; i < rows.size(); i++) {
                 Elements cols = rows.get(i).select("td");
                 // Checks if language exists
                 if (!cols.get(column).text().equals("")) {
-                    languages.add(cols.get(1).text());
+                    String languageCode = cols.get(0).text();
+                    // Remove ":" character from end of language code
+                    languages.put(
+                            languageCode.substring(0, languageCode.length() - 1),
+                            cols.get(1).text());
                 }
             }
         } catch (Exception e) {
