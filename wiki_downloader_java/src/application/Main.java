@@ -1,17 +1,11 @@
 package application;
 	
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import javafx.application.Application;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.fxml.FXMLLoader;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -20,7 +14,9 @@ import org.jsoup.nodes.Document;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.swing.JProgressBar;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,25 +24,26 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
 public class Main extends Application {
-    final String base_URL = "https://dumps.wikimedia.org";
     final String mainPage = "/backup-index.html";
+    String base_URL = "https://dumps.wikimedia.org";
     String choice_url = null;
-    String project_title;
+    String project_title,language,timestamp,title;
 	
-	final ComboBox projects = new ComboBox();
-    final ComboBox languages = new ComboBox();
-    final ComboBox timestamps = new ComboBox();
-    final ComboBox titles = new ComboBox();
+	final ComboBox<String> projects = new ComboBox<String>();
+    final ComboBox<Object> languages = new ComboBox<Object>();
+    final ComboBox<String> timestamps = new ComboBox<String>();
+    final ComboBox<Object> titles = new ComboBox<Object>();
     final Button download = new Button();
     
-	HashMap arrayOfprojects = new HashMap();
-    HashMap arrayOflanguages = null;
+	HashMap<String, String> arrayOfprojects = new HashMap<String, String>();
+    HashMap<?, ?> arrayOflanguages = null;
     
 
 	public static void main(String[] args) throws IOException {		
@@ -72,22 +69,23 @@ public class Main extends Application {
 
         
     //Adding UI for application
-        ObservableList listOfprojects = FXCollections.observableList(new ArrayList(arrayOfprojects.keySet()));
+        ObservableList<String> listOfprojects = FXCollections.observableList(new ArrayList<String>(arrayOfprojects.keySet()));
         HBox hbox1 = new HBox(20);
         HBox hbox2 = new HBox(20);
         HBox hbox3 = new HBox(20);
         HBox hbox4 = new HBox(20);
         HBox hbox5 = new HBox(20);
         VBox box = new VBox(20);
+        box.setPadding(new Insets(10));;
         download.setText("Download");
         
         //Seting combo box for projects
         projects.setItems(listOfprojects);
         
-        projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        projects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
             @Override
-            public void changed(ObservableValue ov, Object t, Object t1) {
-            	//Saving project title
+            public void changed(ObservableValue<?> ov, Object t, Object t1) {
+            	//Saving project title choice
             	project_title = arrayOfprojects.get(t1).toString();
             	
             	//Getting languages based on project title
@@ -95,64 +93,74 @@ public class Main extends Application {
             	arrayOflanguages = Languages.getLanguagesFromProject(t1.toString().toUpperCase());
             	System.out.println("arrayLang.key: " + arrayOflanguages.keySet().toString());
             	
-            	ObservableList listOflanguages = FXCollections.observableArrayList(
-            			arrayOflanguages.keySet());
+            	List<Object> list = new ArrayList<Object>(arrayOflanguages.keySet());
+            	
+            	ObservableList<Object> listOflanguages = FXCollections.observableArrayList(list);
             	//Setting combo box for languages
                 languages.setItems(listOflanguages);
             }
         });
 
-        languages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        languages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
             @Override
-            public void changed(ObservableValue ov, Object t, Object t1) {
+            public void changed(ObservableValue<?> ov, Object t, Object t1) {
+            	//Saving language choice
+            	language = arrayOflanguages.get(t1).toString();
+            	
             	//Disabling the previous combo list to prevent changes
                 projects.setDisable(true);
+                
                 //Getting timestamps based on language
-            	//TODO Add get timestamps function
-                
                 //Creating URL based on user choice
-                choice_url = base_URL + "/" + arrayOflanguages.get(t1) + project_title + "/";
+                choice_url = base_URL + "/" + language + project_title + "/";
                 System.out.println("choice url: "+choice_url);
-                
                 TimeStamp ts = new TimeStamp(choice_url);
                 System.out.println("ts.gettime: " + ts.get_time()[0] + " " + ts.get_time()[1]);
-            	ObservableList listOftimestamps = FXCollections.observableArrayList(
+            	ObservableList<String> listOftimestamps = FXCollections.observableArrayList(
             			ts.get_time());
             	//Setting combo box for timestamps
             	timestamps.setItems(listOftimestamps);
             }
         });
         
-        timestamps.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        timestamps.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
             @Override
-            public void changed(ObservableValue ov, Object t, Object t1) {
+            public void changed(ObservableValue<?> ov, Object t, Object t1) {
+            	//Saving timestamp choice
+            	timestamp = t1.toString();
+            	
             	//Disabling the previous combo list to prevent changes
                 languages.setDisable(true);
-            	//Getting titles based on timestamp
                 
-            	//TODO Add get titles function
-            	//Map arrayOftitles = (t1.toString());
-            	//ObservableList listOftitles = FXCollections.observableArrayList(
-            	//		arrayOftitles);
-            	
+            	//Getting titles based on timestamp
+                //Creating URL based on user choice
+                choice_url = base_URL + "/" + language + project_title + "/" + timestamp;
+                System.out.println(choice_url);
+                JsonParse jp = new JsonParse(choice_url);
+            	ObservableList listOftitles = FXCollections.observableArrayList(
+            		jp.get_titles());
             	//Setting combo box for titles
-                List test = new ArrayList<>();
-                ObservableList listOftitles = FXCollections.observableArrayList(
-                    			test);
                 titles.setItems(listOftitles);
             }
         });
         
-        titles.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        titles.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
             @Override
-            public void changed(ObservableValue ov, Object t, Object t1) {
-                //Disabling the previous combo list to prevent changes
+            public void changed(ObservableValue<?> ov, Object t, Object t1) {
+                //Saving title choice
+            	title = t1.toString();
+            	
+            	//Disabling the previous combo list to prevent changes
                 timestamps.setDisable(true);
+                
+                //Appending title choice to URL to download dump
+                choice_url = base_URL + "/" + language + project_title + "/" + timestamp + title;
+                System.out.println(choice_url);
             }
         });
         
         //download button
-        download.setOnAction(e -> downloadDumps());
+        download.setOnAction(e -> downloadDumps(primaryStage));
         
         hbox1.getChildren().addAll(new Text("Choose Project"), projects);
         hbox2.getChildren().addAll(new Text("Choose Language"), languages);
@@ -160,21 +168,19 @@ public class Main extends Application {
         hbox4.getChildren().addAll(new Text("Choose Titles"), titles);
         hbox5.getChildren().addAll(download);
         box.getChildren().addAll(hbox1, hbox2, hbox3, hbox4, hbox5);
-        Scene scene = new Scene(box, 380, 230);
+        Scene scene = new Scene(box, 470, 230);
         primaryStage.setTitle("wikiDownloader_java");
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
 	
 	//Download dumps button function
-	private Object downloadDumps() {		
+	private Object downloadDumps(Stage primaryStage) {		
 		// TODO Add download dumps function here
 		
-//		Download download1 = new Download("https://dumps.wikimedia.org/nlwiktionary/20181201/nlwiktionary-20181201-categorylinks.sql.gz"
-//		,"/dumps.sql.gz",primaryStage);
-//download1.get_path();
-//download1.run();
-		
+		Download download1 = new Download(choice_url, "/"+title, primaryStage);
+		download1.get_path();
+		download1.run();
 		return null;
 	}
 

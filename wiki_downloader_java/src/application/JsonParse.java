@@ -106,24 +106,20 @@ public class JsonParse {
 	    	   // looping through the jobs and extracting the url
 	    	   for (int a =0 ; a <titles.size();a++) {
 	    		   JSONObject object_contain_key_files=(JSONObject) jobs.get(titles.get(a).toString());
-	    		 
 	    		   
 	    		   JSONArray array_contain_elements_in_title=object_contain_key_files.names();
 	    		   
-	    		   
-	    		   
-	    		   // index is zero because we want to access files
-	    		   JSONObject object_contain_in_file=  (JSONObject) object_contain_key_files.get(array_contain_elements_in_title.getString(0));
-	    		   
-	    		   
-	    		   JSONArray getting_object_link= object_contain_in_file.names();
-		    	   
-	    		   //getting the first one here 
-		    	   String final_link_to_append= getting_object_link.getString(0).toString();
-		    	   
-		    	   link_title.add(final_link_to_append);
-		
-	    		  
+	    		   // index is zero because we want to access files if there is files
+	    		   if(array_contain_elements_in_title.getString(0).equals("files")) {
+	    			   JSONObject object_contain_in_file=  (JSONObject) object_contain_key_files.get(array_contain_elements_in_title.getString(0));
+	    			   
+	    			   JSONArray getting_object_link= object_contain_in_file.names();
+			    	   
+		    		   //getting the first one here 
+			    	   String final_link_to_append= getting_object_link.getString(0).toString();
+			    	   
+			    	   link_title.add(final_link_to_append);
+	    		   }
 	    		 
 	    	   }
 	    	   

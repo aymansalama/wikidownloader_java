@@ -20,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.JProgressBar;
+
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -88,8 +90,7 @@ public class Download implements Runnable {
 			
 			// keeping track of the download percentage
 			double percentDowload= 0.00;
-			
-			
+
 			// looping through the output stream
 			while ((read = in.read(buffer, 0, 1024)) >= 0) {
 				
@@ -104,10 +105,9 @@ public class Download implements Runnable {
 				System.out.println("percent download is" + percent);
 					
 			}
-			
-			
+
 			System.out.println("download is complete");
-			
+
 			bufferedoutput.close();
 			
 			in.close();
