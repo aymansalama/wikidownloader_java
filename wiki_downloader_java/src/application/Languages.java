@@ -13,58 +13,57 @@ import java.util.HashMap;
  * Languages takes the name of the project and goes to an external wiki page
  * to return a list of all the supported languages, according to the
  * wiki page, in a HashMap.
+ *
  */
 public class Languages {
 
+    // Static HashMap of project names and their column numbers
+    private static final HashMap<String, Integer> projects;
+    // put() methods were used as there was no other way to
+    // initialize like an array
+    static {
+        projects = new HashMap<>();
+        projects.put("WIKIPEDIA", 3);
+        projects.put("WIKTIONARY", 4);
+        projects.put("WIKIBOOKS", 5);
+        projects.put("WIKINEWS", 6);
+        projects.put("WIKIQUOTE", 7);
+        projects.put("WIKISOURCE", 8);
+        projects.put("WIKIVERSITY", 9);
+        projects.put("WIKIVOYAGE", 10);
+    }
+
     /**
+     *
      * @param project Name of the project.
      * @return HashMap of languages (key = language code, value = English name of language)
      */
     public static HashMap getLanguagesFromProject(String project) {
-        // Site of table that contains references for supported languages
+        // Site URL of table that contains references for supported languages
         String html = "https://meta.wikimedia.org/wiki/Table_of_Wikimedia_projects";
+
+        // Return HashMap
         HashMap languages = new HashMap();
+
         try {
+            // Gets full HTML document using site URL
             Document doc = Jsoup.connect(html).get();
+            // Query for main table
             Elements tableElements = doc.select("table.wikitable.sortable");
+            // Query for table rows
             Elements rows = tableElements.select("tr");
 
-            int column = 0;
+            // Uppercase project name for flexibility
             String projectUp = project.toUpperCase();
-            switch (projectUp) {
-                case "WIKIPEDIA":
-                    column = 3;
-                    break;
-                case "WIKTIONARY":
-                    column = 4;
-                    break;
-                case "WIKIBOOKS":
-                    column = 5;
-                    break;
-                case "WIKINEWS":
-                    column = 6;
-                    break;
-                case "WIKIQUOTE":
-                    column = 7;
-                    break;
-                case "WIKISOURCE":
-                    column = 8;
-                    break;
-                case "WIKIVERSITY":
-                    column = 9;
-                    break;
-                case "WIKIVOYAGE":
-                    column = 10;
-                    break;
-                default:
-                    break;
-            }
+            // Gets column number from project value
+            int column = projects.get(projectUp);
 
             // Delete deprecated languages indicated by the del tag in the table
             for (Element element : doc.select("del")) {
                 element.remove();
             }
 
+            // Add languages to languages HashMap
             for (int i = 1; i < rows.size(); i++) {
                 Elements cols = rows.get(i).select("td");
                 // Checks if language exists
@@ -72,8 +71,8 @@ public class Languages {
                     String languageCode = cols.get(0).text();
                     // Remove ":" character from end of language code
                     languages.put(
-                            cols.get(1).text(), 
-                            languageCode.substring(0, languageCode.length() - 1));
+                            languageCode.substring(0, languageCode.length() - 1),
+                            cols.get(1).text());
                 }
             }
         } catch (Exception e) {
