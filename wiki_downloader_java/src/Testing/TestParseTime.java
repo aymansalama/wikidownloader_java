@@ -2,7 +2,7 @@ package Testing;
 
 import java.util.ArrayList;
 
-public class TestParseProject extends Parser {
+public class TestParseTime extends Parser {
 
     public static void main(String[] args)
     {
@@ -18,8 +18,9 @@ public class TestParseProject extends Parser {
 //        Loop through all arraylist object
 //        Display similarity percentage
 
-        String file = "project.json";
+        String file = "enwikipediatime.json";
 
-        ArrayList<String> outputProjects = parseJSON(file);
+        ArrayList<String> outputTime = parseJSON(file);
+        System.out.println(outputTime.size());
     }
 }

@@ -2,7 +2,7 @@ package Testing;
 
 import java.util.ArrayList;
 
-public class TestParseProject extends Parser {
+public class TestParseLang extends Parser {
 
     public static void main(String[] args)
     {
@@ -18,8 +18,9 @@ public class TestParseProject extends Parser {
 //        Loop through all arraylist object
 //        Display similarity percentage
 
-        String file = "project.json";
+        String file = "langwikipedia.json";
 
-        ArrayList<String> outputProjects = parseJSON(file);
+        ArrayList<String> outputLanguage = parseJSON(file);
+        System.out.println(outputLanguage.size());
     }
 }
