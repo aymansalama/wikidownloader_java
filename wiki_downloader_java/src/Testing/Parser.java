@@ -9,8 +9,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Extend this class to use the parsing function, input the json file into the same folder (Testing) and voila
+ * JSON file must be in an array format. Non-array form will fail
+ */
 class Parser {
 
+    /**
+     * @param fileName fileName of JSON file
+     * @return ArrayList of object inside
+     */
     static ArrayList<String> parseJSON (String fileName) {
         String filePath = new File("").getAbsolutePath().concat("\\wiki_downloader_java\\src\\Testing\\");
         String file = filePath.concat(fileName);

@@ -1,6 +1,9 @@
 package Testing;
 
+import application.Languages;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TestParseLang extends Parser {
 
@@ -20,7 +23,28 @@ public class TestParseLang extends Parser {
 
         String file = "langwikipedia.json";
 
-        ArrayList<String> outputLanguage = parseJSON(file);
-        System.out.println(outputLanguage.size());
+        String input = "wikipedia";
+        ArrayList<String> expectedOut = parseJSON(file);
+
+        HashMap actualOut = Languages.getLanguagesFromProject(input);
+        final int[] correct = {0};
+        final int[] incorrect = {0};
+        HashMap langNotCorrect = new HashMap();
+
+//        Loop through all the outputs and get similarity percentage
+        actualOut.forEach((langid,lang) -> {
+            if (expectedOut.contains(langid))
+                correct[0]++;
+            else{
+                incorrect[0]++;
+                langNotCorrect.put(langid,lang);
+            }
+        });
+
+
+        System.out.println("Correct: " + correct[0] + " / " + expectedOut.size());
+        System.out.println("No of incorrect: " + incorrect[0]);
+        System.out.println("Incorrect: " + langNotCorrect);
+
     }
 }
