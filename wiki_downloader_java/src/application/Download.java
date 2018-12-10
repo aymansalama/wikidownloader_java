@@ -47,24 +47,13 @@ public class Download implements Runnable {
 		this.stage=stage;
 
 	}
-
-	public Download(String link, String url_select)
-	{
-		this.link=link;
-		this.url_select=url_select;
-		out = new File("C:\\Users\\Public\\"+url_select);
-	}
-
-	public String getFilePath() {
-		return out.getAbsolutePath();
-	}
 	
 	
 	public void get_path() {
 		DirectoryChooser chooser = new DirectoryChooser();
 		File  file =chooser.showDialog(stage);
 		filepath = file.getAbsolutePath();
-		out = new File(filepath+url_select);
+		out= new File(filepath+url_select);
 	}
 
 	@Override
@@ -114,7 +103,7 @@ public class Download implements Runnable {
 				
 				String percent = String.format("%.2f", percentDowload);
 				
-				System.out.println("percent download is " + percent);
+				System.out.println("percent download is" + percent);
 					
 			}
 
