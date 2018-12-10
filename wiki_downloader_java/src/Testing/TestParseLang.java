@@ -29,6 +29,7 @@ public class TestParseLang extends Parser {
 
             String file = "lang".concat(type).concat(".json");
             ArrayList<String> expectedOut = parseJSON(file);
+            int totalExpectedOut = expectedOut.size();
 
             HashMap actualOut = Languages.getLanguagesFromProject(type);
             final int[] correct = {0};
@@ -37,18 +38,21 @@ public class TestParseLang extends Parser {
 
 //        Loop through all the outputs and get similarity percentage
             actualOut.forEach((langid,lang) -> {
-                if (expectedOut.contains(langid))
+                if (expectedOut.contains(langid)) {
                     correct[0]++;
-                else{
+                    expectedOut.remove(langid);
+                }
+                else {
                     incorrect[0]++;
                     langNotCorrect.put(langid,lang);
                 }
             });
 
             System.out.println("%----------" + type + "----------%");
-            System.out.println("Correct: " + correct[0] + " / " + expectedOut.size());
+            System.out.println("Correct: " + correct[0] + " / " + totalExpectedOut);
             System.out.println("No of incorrect: " + incorrect[0]);
-            System.out.println("Incorrect: " + langNotCorrect + "\n");
+            System.out.println("Incorrect: " + langNotCorrect);
+            System.out.println("Missing: " + expectedOut);
         });
 
     }
