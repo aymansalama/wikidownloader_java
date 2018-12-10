@@ -1,22 +1,33 @@
+//Class to test whether the url is correct and able to download the requested dump files
+
 package Testing;
+
+import application.JsonParse;
+import java.util.ArrayList;
 
 public class TestDumpFiles {
 
     public static void main(String[] args)
     {
-        String [] urlName = new String[10];
-
+        testUrl();
     }
 
-    private void testUrl(String[] obtainedURL)
+    private static void testUrl()
     {
         int i;
         String result;
 
-        for(i =0 ; i < obtainedURL.length ;i++)
+
+        String URL = "https://dumps.wikimedia.org/enwikinews/20180720/";
+        JsonParse jp = new JsonParse(URL);
+        ArrayList<String> listOftitles = jp.get_titles();
+        String [] urlName = new String[listOftitles.size()];
+
+        for(i =0 ; i < listOftitles.size() ;i++)
         {
-            result = obtainedURL[i];
-            //and then run the function and pass result as an argument
+            urlName[i]= listOftitles.get(i);
+            result = URL + urlName[i];
+            System.out.println(result);
         }
     }
 }
