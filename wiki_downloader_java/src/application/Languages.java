@@ -71,7 +71,7 @@ public class Languages {
                 // Get English name of language
                 String language = cols.get(1).text();
                 // Insert key and value into HashMap
-                languages.put(languageCode, language);
+                languages.put(language, languageCode);
             }
         } catch (Exception e) {
             e.printStackTrace();
