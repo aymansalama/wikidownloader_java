@@ -72,12 +72,12 @@ public class TimeStamp {
             size_array_list_time = array_list_timestamp.size();
             
            // remove unnecessary "latest" in the html file 
-            array_list_timestamp.remove(size_array_list_time - 1);
+           // array_list_timestamp.remove(size_array_list_time - 1);
            
     
             // System.out.println("the size of the resulting list is " +array_list_timestamp.size());
 			
-           //  System.out.println(array_list_timestamp);
+            System.out.println(array_list_timestamp);
              
             // making an array the size of the array list
              array_string_timestamp= new String[array_list_timestamp.size()];
