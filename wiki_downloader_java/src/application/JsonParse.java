@@ -123,12 +123,7 @@ public class JsonParse {
 	    		   }
 	    		 
 	    	   }
-	    	   
-	    	   System.out.println("all the  links are now " +link_title);
-	    	  
-	    	
-	   
-	    
+
 	      }catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
