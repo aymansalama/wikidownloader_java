@@ -46,6 +46,13 @@ public class Download implements Runnable {
 		this.stage=stage;
 
 	}
+
+	public Download(String link, String url_select)
+	{
+		this.link=link;
+		this.url_select=url_select;
+		out = new File("C:\\Users\\User\\Downloads\\"+url_select);
+	}
 	
 	
 	public void get_path() {
