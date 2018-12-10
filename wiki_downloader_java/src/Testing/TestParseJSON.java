@@ -30,8 +30,6 @@ public class TestParseJSON extends Parser{
         });
         //Print out the results obtained from the test
         System.out.println("Correct: " + correct[0] + " / " + expectedOut.size());
-        int incorrect = expectedOut.size() - correct[0];
-        System.out.println("No of incorrect: " + incorrect);
     }
 
 }
