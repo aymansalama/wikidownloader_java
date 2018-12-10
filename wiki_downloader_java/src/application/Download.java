@@ -102,7 +102,7 @@ public class Download implements Runnable {
 				
 				String percent = String.format("%.2f", percentDowload);
 				
-				System.out.println("percent download is" + percent);
+				System.out.println("percent download is " + percent);
 					
 			}
 
