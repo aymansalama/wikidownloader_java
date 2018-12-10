@@ -12,12 +12,13 @@ public class TestParseTime extends Parser {
 
     private static void execute() {
 
+//        Initialize inputs
         ArrayList<String> projectList = new ArrayList<>();
         ArrayList<String> languageList = new ArrayList<>();
         projectList.add("wiki");
         projectList.add("wiktionary");
 
-//        Loop through certain inputs of the lang + project
+//        Loop through all projects and initialize the language correspondingly
         projectList.forEach(projects -> {
             switch (projects){
                 case "wiki":
@@ -32,15 +33,17 @@ public class TestParseTime extends Parser {
                     languageList.add("als");
             }
 
+//            Loop through all initialized languages
             languageList.forEach(lang -> {
 
+//                Obtain expected output from JSON file
                 String combine = lang + projects;
-                String url = "https://dumps.wikimedia.org/".concat(combine);
-
                 String file = combine.concat("time.json");
                 ArrayList<String> expectedOut = parseJSON(file);
                 int totalExpectedOut = expectedOut.size();
 
+//                Obtain actual output from provided function
+                String url = "https://dumps.wikimedia.org/".concat(combine);
                 TimeStamp ts = new TimeStamp(url);
                 String[] actualOut = ts.get_time();
 
@@ -48,6 +51,7 @@ public class TestParseTime extends Parser {
                 final int[] incorrect = {0};
                 ArrayList<String> timeNotCorrect = new ArrayList<>();
 
+//                Loop through all outputs and print similarity
                 for (String time: actualOut){
                     if (expectedOut.contains(time)) {
                         correct[0]++;
@@ -57,7 +61,6 @@ public class TestParseTime extends Parser {
                         incorrect[0]++;
                         timeNotCorrect.add(time);
                     }
-
                 }
 
                 System.out.println("%----------" + lang + projects + "----------%");

@@ -13,6 +13,7 @@ public class TestParseLang extends Parser {
 
     private static void execute() {
 
+//        Initialize all inputs (projects)
         ArrayList<String> projectList = new ArrayList<>();
         projectList.add("wikipedia");
         projectList.add("wikibooks");
@@ -26,16 +27,19 @@ public class TestParseLang extends Parser {
 //        Loop through all the input types
         projectList.forEach(type -> {
 
+//            Obtain the expected output from the JSON file
             String file = "lang".concat(type).concat(".json");
             ArrayList<String> expectedOut = parseJSON(file);
             int totalExpectedOut = expectedOut.size();
 
+//            Obtain the actual output from the provided function
             HashMap actualOut = Languages.getLanguagesFromProject(type);
+
             final int[] correct = {0};
             final int[] incorrect = {0};
             HashMap langNotCorrect = new HashMap();
 
-//        Loop through all the outputs and get similarity percentage
+//        Loop through all the outputs and print similarity
             actualOut.forEach((langid,lang) -> {
                 if (expectedOut.contains(langid)) {
                     correct[0]++;
