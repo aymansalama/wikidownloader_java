@@ -1,6 +1,9 @@
 package Testing;
 
+import application.Languages;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TestParseLang extends Parser {
 
@@ -11,16 +14,42 @@ public class TestParseLang extends Parser {
 
     private static void execute() {
 
+        ArrayList<String> projectList = new ArrayList<>();
+        projectList.add("wikipedia");
+        projectList.add("wikibooks");
+        projectList.add("wikinews");
+        projectList.add("wikiquote");
+        projectList.add("wikisource");
+        projectList.add("wikiversity");
+        projectList.add("wikivoyage");
+        projectList.add("wiktionary");
 
-//        Insert function here
-//        Load csv file
-//        Parse into arraylist
-//        Loop through all arraylist object
-//        Display similarity percentage
+//        Loop through all the input types
+        projectList.forEach(type -> {
 
-        String file = "langwikipedia.json";
+            String file = "lang".concat(type).concat(".json");
+            ArrayList<String> expectedOut = parseJSON(file);
 
-        ArrayList<String> outputLanguage = parseJSON(file);
-        System.out.println(outputLanguage.size());
+            HashMap actualOut = Languages.getLanguagesFromProject(type);
+            final int[] correct = {0};
+            final int[] incorrect = {0};
+            HashMap langNotCorrect = new HashMap();
+
+//        Loop through all the outputs and get similarity percentage
+            actualOut.forEach((langid,lang) -> {
+                if (expectedOut.contains(langid))
+                    correct[0]++;
+                else{
+                    incorrect[0]++;
+                    langNotCorrect.put(langid,lang);
+                }
+            });
+
+            System.out.println("%----------" + type + "----------%");
+            System.out.println("Correct: " + correct[0] + " / " + expectedOut.size());
+            System.out.println("No of incorrect: " + incorrect[0]);
+            System.out.println("Incorrect: " + langNotCorrect + "\n");
+        });
+
     }
 }
