@@ -137,9 +137,9 @@ public class Main extends Application {
                 choice_url = base_URL + "/" + language + project_title + "/" + timestamp;
                 System.out.println(choice_url);
                 JsonParse jp = new JsonParse(choice_url);
-            	ObservableList listOftitles = FXCollections.observableArrayList(
+                ObservableList listOftitles = FXCollections.observableArrayList(
             		jp.get_titles());
-            	//Setting combo box for titles
+                //Setting combo box for titles
                 titles.setItems(listOftitles);
             }
         });
@@ -177,7 +177,6 @@ public class Main extends Application {
 	//Download dumps button function
 	private Object downloadDumps(Stage primaryStage) {		
 		// TODO Add download dumps function here
-		
 		Download download1 = new Download(choice_url, "/"+title, primaryStage);
 		download1.get_path();
 		download1.run();

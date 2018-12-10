@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 public class TestParseLang extends Parser {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         execute();
     }
 
@@ -16,7 +15,7 @@ public class TestParseLang extends Parser {
 
 
 //        Insert function here
-//        Load csv file
+//        Load JSON file
 //        Parse into arraylist
 //        Loop through all arraylist object
 //        Display similarity percentage
