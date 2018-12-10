@@ -51,7 +51,11 @@ public class Download implements Runnable {
 	{
 		this.link=link;
 		this.url_select=url_select;
-		out = new File("C:\\Users\\User\\Downloads\\"+url_select);
+		out = new File("C:\\Users\\Public\\"+url_select);
+	}
+
+	public String getFilePath() {
+		return out.getAbsolutePath();
 	}
 	
 	
@@ -59,7 +63,7 @@ public class Download implements Runnable {
 		DirectoryChooser chooser = new DirectoryChooser();
 		File  file =chooser.showDialog(stage);
 		filepath = file.getAbsolutePath();
-		out= new File(filepath+url_select);
+		out = new File(filepath+url_select);
 	}
 
 	@Override
