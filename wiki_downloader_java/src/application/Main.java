@@ -105,7 +105,7 @@ public class Main extends Application {
             @Override
             public void changed(ObservableValue<?> ov, Object t, Object t1) {
             	//Saving language choice
-            	language = t1.toString();
+            	language = arrayOflanguages.get(t1).toString();
             	
             	//Disabling the previous combo list to prevent changes
                 projects.setDisable(true);
