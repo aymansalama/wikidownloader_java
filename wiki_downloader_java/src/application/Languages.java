@@ -18,19 +18,20 @@ import java.util.HashMap;
 public class Languages {
 
     // Static HashMap of project names and their column numbers
-    private static final HashMap<String, Integer> projects;
-    // put() methods were used as there was no other way to
+    private static final HashMap<String, String> projects;
+    // put methods were used as there was no other way to
     // initialize like an array
     static {
+        // Values are site URL suffixes (e.g. https://meta.wikimedia.org/wiki/Wiktionary)
         projects = new HashMap<>();
-        projects.put("WIKIPEDIA", 3);
-        projects.put("WIKTIONARY", 4);
-        projects.put("WIKIBOOKS", 5);
-        projects.put("WIKINEWS", 6);
-        projects.put("WIKIQUOTE", 7);
-        projects.put("WIKISOURCE", 8);
-        projects.put("WIKIVERSITY", 9);
-        projects.put("WIKIVOYAGE", 10);
+        projects.put("WIKIPEDIA", "List_of_Wikipedias/sortable");
+        projects.put("WIKTIONARY", "Wiktionary");
+        projects.put("WIKIBOOKS", "Wikibooks");
+        projects.put("WIKINEWS", "Wikinews");
+        projects.put("WIKIQUOTE", "Wikiquote");
+        projects.put("WIKISOURCE", "Wikisource");
+        projects.put("WIKIVERSITY", "Wikiversity");
+        projects.put("WIKIVOYAGE", "Wikivoyage");
     }
 
     /**
@@ -39,41 +40,38 @@ public class Languages {
      * @return HashMap of languages (key = language code, value = English name of language)
      */
     public static HashMap getLanguagesFromProject(String project) {
-        // Site URL of table that contains references for supported languages
-        String html = "https://meta.wikimedia.org/wiki/Table_of_Wikimedia_projects";
-
-        // Return HashMap
+        // Uppercase project name for flexibility
+        String projectUp = project.toUpperCase();
+        int table;
+        // Resolves issue with Wikivoyage web page having two tables with the same class
+        // but the desired table is the second table, while the rest of the web pages
+        // have the main table as the first table
+        if (projectUp.equals("WIKIVOYAGE")) {
+            table = 1;
+        } else {
+            table = 0;
+        }
+        // Site URL of primary table that contains list of supported languages
+        String html = "https://meta.wikimedia.org/wiki/" + projects.get(projectUp);
         HashMap languages = new HashMap();
-
         try {
             // Gets full HTML document using site URL
             Document doc = Jsoup.connect(html).get();
             // Query for main table
-            Elements tableElements = doc.select("table.wikitable.sortable");
+            // (accepts sortable but doesn't accept jquery-tablesorter for some reason)
+            Element tableElements = doc.select(".sortable").get(table);
             // Query for table rows
             Elements rows = tableElements.select("tr");
-
-            // Uppercase project name for flexibility
-            String projectUp = project.toUpperCase();
-            // Gets column number from project value
-            int column = projects.get(projectUp);
-
-            // Delete deprecated languages indicated by the del tag in the table
-            for (Element element : doc.select("del")) {
-                element.remove();
-            }
 
             // Add languages to languages HashMap
             for (int i = 1; i < rows.size(); i++) {
                 Elements cols = rows.get(i).select("td");
-                // Checks if language exists
-                if (!cols.get(column).text().equals("")) {
-                    String languageCode = cols.get(0).text();
-                    // Remove ":" character from end of language code
-                    languages.put(
-                            cols.get(1).text(),
-                            languageCode.substring(0, languageCode.length() - 1));
-                }
+                // Get language code
+                String languageCode = cols.get(3).text();
+                // Get English name of language
+                String language = cols.get(1).text();
+                // Insert key and value into HashMap
+                languages.put(languageCode, language);
             }
         } catch (Exception e) {
             e.printStackTrace();

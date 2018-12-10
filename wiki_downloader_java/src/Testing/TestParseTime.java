@@ -12,26 +12,63 @@ public class TestParseTime extends Parser {
 
     private static void execute() {
 
+        ArrayList<String> projectList = new ArrayList<>();
+        ArrayList<String> languageList = new ArrayList<>();
+        projectList.add("wiki");
+        projectList.add("wiktionary");
 
-//        Insert function here
-//        Load csv file
-//        Parse into arraylist
-//        Loop through all arraylist object
-//        Display similarity percentage
+//        Loop through certain inputs of the lang + project
+        projectList.forEach(projects -> {
+            switch (projects){
+                case "wiki":
+                    languageList.add("en");
+                    languageList.add("ceb");
+                    languageList.add("sv");
+                    break;
 
-        String file = "enwikipediatime.json";
-        String URL = "https://dumps.wikimedia.org/enwiki/";
+                case "wiktionary":
+                    languageList.add("en");
+                    languageList.add("mg");
+                    languageList.add("als");
+            }
 
-        String[] tsArray = new TimeStamp(URL).get_time();
-        ArrayList<String> outputTime = parseJSON(file);
+            languageList.forEach(lang -> {
 
-        long totalItem = outputTime.size();
-        long correctItem = 0;
-        for(int i=0; i<tsArray.length; i++) {
-            if (tsArray[i].equals(outputTime.get(i)))
-                correctItem++;
-        }
+                String combine = lang + projects;
+                String url = "https://dumps.wikimedia.org/".concat(combine);
 
-        System.out.println("Similarity = " + totalItem/correctItem);
+                String file = combine.concat("time.json");
+                ArrayList<String> expectedOut = parseJSON(file);
+                int totalExpectedOut = expectedOut.size();
+
+                TimeStamp ts = new TimeStamp(url);
+                String[] actualOut = ts.get_time();
+
+                final int[] correct = {0};
+                final int[] incorrect = {0};
+                ArrayList<String> timeNotCorrect = new ArrayList<>();
+
+                for (String time: actualOut){
+                    if (expectedOut.contains(time)) {
+                        correct[0]++;
+                        expectedOut.remove(time);
+                    }
+                    else {
+                        incorrect[0]++;
+                        timeNotCorrect.add(time);
+                    }
+
+                }
+
+                System.out.println("%----------" + lang + projects + "----------%");
+                System.out.println("Correct: " + correct[0] + " / " + totalExpectedOut);
+                System.out.println("No of incorrect: " + incorrect[0]);
+                System.out.println("Incorrect: " + timeNotCorrect);
+                System.out.println("Missing: " + expectedOut);
+            });
+
+            languageList.clear();
+        });
+
     }
 }
