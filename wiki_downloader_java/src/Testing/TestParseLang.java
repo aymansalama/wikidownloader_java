@@ -40,7 +40,7 @@ public class TestParseLang extends Parser {
             HashMap langNotCorrect = new HashMap();
 
 //        Loop through all the outputs and print similarity
-            actualOut.forEach((langid,lang) -> {
+            actualOut.forEach((lang,langid) -> {
                 if (expectedOut.contains(langid)) {
                     correct[0]++;
                     expectedOut.remove(langid);

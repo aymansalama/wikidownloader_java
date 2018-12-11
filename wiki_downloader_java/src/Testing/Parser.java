@@ -28,7 +28,6 @@ class Parser {
         JSONArray jsonArray = null;
         try {
             // open file
-            System.out.println(file);
             Object obj = parser.parse(new FileReader(file));
 
             // convert to array
