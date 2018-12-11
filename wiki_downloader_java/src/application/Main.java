@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Application;
 
+import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import org.jsoup.nodes.Element;
@@ -192,7 +193,7 @@ public class Main extends Application {
 		hbox4.getChildren().addAll(new Text("Choose Titles"), titles);
 		hbox5.getChildren().addAll(download);
 		box.getChildren().addAll(hbox1, hbox2, hbox3, hbox4, hbox5);
-		Scene scene = new Scene(box, 470, 230);
+		Scene scene = new Scene(box, 480, 280);
 		primaryStage.setTitle("wikiDownloader_java");
 		primaryStage.setScene(scene);
 		primaryStage.show();
