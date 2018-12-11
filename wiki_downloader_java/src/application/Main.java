@@ -222,7 +222,7 @@ public class Main extends Application {
 	}
 
 
-
+	// The function was tested by the developer Elsayed and works fine
 	public static ArrayList<String> getListOfProjects(String linkToWebsite) throws IOException {
 
 		/*
