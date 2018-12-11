@@ -95,6 +95,9 @@ public class Main extends Application {
 
 				ObservableList<Object> listOflanguages = FXCollections.observableArrayList(list);
 				//Setting combo box for languages
+                languages.setItems(null);
+                timestamps.setItems(null);
+                titles.setItems(null);
 				languages.setItems(listOflanguages);
 			}
 		});
@@ -102,23 +105,27 @@ public class Main extends Application {
 		languages.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue<?> ov, Object t, Object t1) {
-				//Saving language choice
-				language = arrayOflanguages.get(t1).toString();
+			    if (t1 != null) {
+                    //Saving language choice
+                    language = arrayOflanguages.get(t1).toString();
 
-				//Disabling the previous combo list to prevent changes
-				projects.setDisable(true);
+                    //Disabling the previous combo list to prevent changes
+				    // projects.setDisable(true);
 
-				//Getting timestamps based on language
-				//Creating URL based on user choice
-				choice_url = base_URL + "/" + language + project_title + "/";
-				System.out.println("choice url: "+choice_url);
+                    //Getting timestamps based on language
+                    //Creating URL based on user choice
+                    choice_url = base_URL + "/" + language + project_title + "/";
+                    System.out.println("choice url: "+choice_url);
 
-				TimeStamp ts = new TimeStamp(choice_url);
-				System.out.println("ts.gettime: " + ts.get_time()[0] + " " + ts.get_time()[1]);
-				ObservableList<String> listOftimestamps = FXCollections.observableArrayList(
-						ts.get_time());
-				//Setting combo box for timestamps
-				timestamps.setItems(listOftimestamps);
+                    TimeStamp ts = new TimeStamp(choice_url);
+                    System.out.println("ts.gettime: " + ts.get_time()[0] + " " + ts.get_time()[1]);
+                    ObservableList<String> listOftimestamps = FXCollections.observableArrayList(
+                            ts.get_time());
+                    //Setting combo box for timestamps
+                    timestamps.setItems(null);
+                    titles.setItems(null);
+                    timestamps.setItems(listOftimestamps);
+                }
 			}
 		});
 
@@ -126,61 +133,62 @@ public class Main extends Application {
 
 			@Override
 			public void changed(ObservableValue<?> ov, Object t, Object t1) {
-				//Saving timestamp choice
-				timestamp = t1.toString();
-				
-				System.out.println("timestamp is :" + timestamp);
+			    if (t1 != null) {
+                    //Saving timestamp choice
+                    timestamp = t1.toString();
 
-				//Getting titles based on timestamp
-				//Creating URL based on user choice
-				choice_url = base_URL + "/" + language + project_title + "/" + timestamp;
-				ObservableList listOftitles = null;
+                    System.out.println("timestamp is :" + timestamp);
 
-				switch(timestamp) {
-				case"latest/":{
-					//Disabling the previous combo list to prevent changes
-					languages.setDisable(true);
+                    //Getting titles based on timestamp
+                    //Creating URL based on user choice
+                    choice_url = base_URL + "/" + language + project_title + "/" + timestamp;
+                    ObservableList listOftitles = null;
 
-					GetLatestTitles titles = new GetLatestTitles(choice_url);
-					titles.get_title_latest();
-					   listOftitles = FXCollections.observableArrayList(
-								titles.get_title_latest());
+                    switch(timestamp) {
+                        case"latest/":
+                            // Disabling the previous combo list to prevent changes
+                            // languages.setDisable(true);
 
+                            GetLatestTitles titles = new GetLatestTitles(choice_url);
+                            titles.get_title_latest();
+                            listOftitles = FXCollections.observableArrayList(
+                                    titles.get_title_latest());
 
-					break;
-				}
-				default:{
+                            break;
 
-					//Disabling the previous combo list to prevent changes
-					languages.setDisable(true);
+                        default:
+                            // Disabling the previous combo list to prevent changes
+                            // languages.setDisable(true);
 
-					System.out.println(choice_url);
-					JsonParse jp = new JsonParse(choice_url);
-			        listOftitles = FXCollections.observableArrayList(
-							jp.get_titles());
-				}
-				
-				
-			}
+                            System.out.println(choice_url);
+                            JsonParse jp = new JsonParse(choice_url);
+                            listOftitles = FXCollections.observableArrayList(
+                                    jp.get_titles());
+                            break;
+                    }
 
-				//Setting combo box for titles
-				titles.setItems(listOftitles);
+                    //Setting combo box for titles
+                    titles.setItems(null);
+                    titles.setItems(listOftitles);
+                }
 			}
 		});
 
 		titles.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
 			@Override
 			public void changed(ObservableValue<?> ov, Object t, Object t1) {
-				//Saving title choice
-				title = t1.toString();
+			    if (t1 != null) {
+                    // Saving title choice
+                    title = t1.toString();
 
 
-				//Disabling the previous combo list to prevent changes
-				timestamps.setDisable(true);
+                    // Disabling the previous combo list to prevent changes
+				    // timestamps.setDisable(true);
 
-				//Appending title choice to URL to download dump
-				choice_url = base_URL + "/" + language + project_title + "/" + timestamp + title;
-				System.out.println(choice_url);
+                    // Appending title choice to URL to download dump
+                    choice_url = base_URL + "/" + language + project_title + "/" + timestamp + title;
+                    System.out.println(choice_url);
+                }
 			}
 		});
 
